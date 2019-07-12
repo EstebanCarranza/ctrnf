@@ -102,9 +102,13 @@
                     localStorage.setItem('challengeListQuick', JSON.stringify(challengeListQuick));
                     challengeListQuick = JSON.parse(localStorage.getItem('challengeListQuick'));
                     $(this).parent().find('.btnAddQuick').removeClass("disabled");
-                    quickTotalDataCompletado--;
-                    $(".quickTotalData").html("Quick ["+quickTotalDataCompletado+"/"+challengeListQuick.length+"]");
-                  }else{
+                    if(challengeListQuick[index].completado == challengeListQuick[index].total-1)
+                    {
+                      quickTotalDataCompletado--;
+                      $(".quickTotalData").html("Quick ["+quickTotalDataCompletado+"/"+challengeListQuick.length+"]");
+                    }
+                  }
+                  if(challengeListQuick[index].completado == 0){
                     $(this).addClass("disabled");
                   }
                
@@ -127,7 +131,6 @@
                   }
                    if(challengeListQuick[index].completado == challengeListQuick[index].total)
                   {
-                    debugger;
                     $(this).parent().parent().removeClass("white");
                     $(this).parent().parent().removeClass("black-text");
                     $(this).parent().parent().removeClass("grey darken-4");

@@ -67,10 +67,20 @@
                                 "</p>"+
                               
                                 "<p class='col l4 m4 s12 row'>"+
-                                    "<span class='col s12 center'><strong>Total</strong></span>"+
-                                    "<a class='btnRemoveDialy col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>"+
-                                      "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountDialy col s6' type='text' value='"+challengeListDialy[i].completado+"'/><span class='col s6'>/"+challengeListDialy[i].total + "</span></span>" +
-                                    "<a class='btnAddDialy col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>"+
+                                    "<span class='col s12 center'><strong>Total</strong></span>";
+                                if(challengeListDialy[i].completado == 0){
+                                cardDialy +=
+                                    "<a class='disabled btnRemoveDialy col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+                                }else {
+                                cardDialy +=  "<a class='btnRemoveDialy col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+                                }
+                                cardDialy +=  "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountDialy col s6' type='text' value='"+challengeListDialy[i].completado+"'/><span class='col s6'>/"+challengeListDialy[i].total + "</span></span>";
+                                if(challengeListDialy[i].completado == challengeListDialy[i].total){
+                                cardDialy +=  "<a class='disabled btnAddDialy col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+                                }else {
+                                cardDialy +=  "<a class='btnAddDialy col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+                                }
+                                cardDialy +=
                                 "</p>"+
                               "</div>"+
                             
@@ -88,14 +98,24 @@
                         $(this).parent().find('.txtCountDialy').val(challengeListDialy[index].completado);
                         localStorage.setItem('challengeListDialy', JSON.stringify(challengeListDialy));
                         challengeListDialy = JSON.parse(localStorage.getItem('challengeListDialy'));
+                        if(challengeListDialy[index].completado == challengeListDialy[index].total-1)
+                        {
+                            dialyTotalDataCompletado--;
+                          $(".dialyTotalData").html("Dialy ["+dialyTotalDataCompletado+"/"+challengeListDialy.length+"]");
+                        }
+                        
+                      }
+                      if(challengeListDialy[index].completado == 0){
+                        $(this).addClass("disabled");
                       }
                         $(this).parent().parent().addClass("theme");
                         $(this).parent().parent().removeClass("green darken-1");
                         $(this).parent().parent().removeClass("white-text");
                         setTheme();
+                        $(this).parent().find('.btnAddDialy').removeClass("disabled");
                     });
                     $(".btnAddDialy").on('click',function(){
-                      //debugger;
+                      debugger;
                       index = $(this).parent().find('.txtCountDialy').attr('index');
                       if(challengeListDialy[index].completado<challengeListDialy[index].total)
                       {
@@ -103,6 +123,7 @@
                         $(this).parent().find('.txtCountDialy').val(challengeListDialy[index].completado);
                         localStorage.setItem('challengeListDialy', JSON.stringify(challengeListDialy));
                         challengeListDialy = JSON.parse(localStorage.getItem('challengeListDialy'));
+                        $(this).parent().find('.btnRemoveDialy').removeClass("disabled");
                       }
                        if(challengeListDialy[index].completado == challengeListDialy[index].total)
                       {
@@ -113,6 +134,7 @@
                         $(this).parent().parent().removeClass("theme");
                         $(this).parent().parent().addClass("green darken-1");
                         $(this).parent().parent().addClass("white-text");
+                        $(this).addClass("disabled");
                         dialyTotalDataCompletado++;
                         $(".dialyTotalData").html("Dialy ["+dialyTotalDataCompletado+"/"+challengeListDialy.length+"]");
                       }else{
@@ -121,10 +143,16 @@
                         $(this).parent().parent().removeClass("green darken-1");
                         $(this).parent().parent().removeClass("white-text");
                         setTheme();
-                        dialyTotalDataCompletado--;
-                        $(".dialyTotalData").html("Dialy ["+dialyTotalDataCompletado+"/"+challengeListDialy.length+"]");
+                        $(this).removeClass("disabled");
+                        /*
+                        if(challengeListDialy[index].completado == challengeListDialy[index].total-1){
+                          dialyTotalDataCompletado--;
+                          $(".dialyTotalData").html("Dialy ["+dialyTotalDataCompletado+"/"+challengeListDialy.length+"]");
+                        }*/
                       }
-                    }); 
+                      
+                    });
+                    $(".dialyTotalData").html("Dialy ["+dialyTotalDataCompletado+"/"+challengeListDialy.length+"]"); 
                 // alert('successful');
                 },
                 error : function(xhr, status) {
@@ -135,7 +163,7 @@
       }
       updateDialyList();
       $(".btnDeleteDialy").click(function(){
-
+        dialyTotalDataCompletado = 0;
         localStorage.removeItem('challengeListDialy');
         $(".tblDialyBody").text("");
         updateDialyList();
