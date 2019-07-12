@@ -24,6 +24,8 @@
     
     @yield('body')
     </section>
+
+    @include('inc.footer')
     <script>
         $(document).ready()
             {

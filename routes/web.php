@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/extras', function () {
+    return view('extras.index');
+});
+Route::get('/extras/trackSelector', function () {
+    return view('extras.trackSelector');
+});
+
 Route::resource('/challengeDT', 'challengeDT');
 
 
@@ -24,3 +31,8 @@ Route::get('/Weekly','challengeData@getWeekly');
 Route::get('/Themed','challengeData@getThemed');
 Route::get('/Pro','challengeData@getPro');
 Route::get('/Tier','challengeData@getTier');
+
+
+Route::get('/RaceTracks','challengeData@getTrackRace');
+Route::get('/BattleTracks','challengeData@getTrackBattle');
+

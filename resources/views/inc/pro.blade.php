@@ -1,98 +1,145 @@
-<h1>Pro</h1>
-
-     <div class="tblProBody row"></div> 
+<div class='row'>
+  <h1 class='col l8 s12 proTotalData'>Pro</h1>
+  <h1 class='col l2 s4'><img class='col s12 responsive-img' src='img/05_pro.png'></h1>
+  <h1 class='col l2 s4 offset-s4'><a class="waves-effect waves-light btn blue btnDeletePro">delete<i class="material-icons right">delete</i></a></h1>
+</div>
+     <div class="tblProBody theme row"></div> 
 <script>
   $(document).ready()
     {
       challengeListPro = [];
-      $.ajax(
-        {
-            type:'GET',
-            url:'/Pro',
-            dataType:'json',
-            async:'true',
+      proTotalDataCompletado = 0;
+      function updateProList()
+      {
+        $.ajax(
+          {
+              type:'GET',
+              url:'/Pro',
+              dataType:'json',
+              async:'true',
 
-            success: function(data){
-              
-              challengeListProArray = JSON.parse(localStorage.getItem('challengeListPro'));
-              
-              //Validar localstorage primero
-              contResultPro = 0;
-              
-              if(challengeListProArray != null)
-              for(i = 0; i < data.length; i++)
-              {
-                if(data[i].idChallengeDT == challengeListProArray[i].idChallengeDT)
-                {
-                  contResultPro++;
-                }
-              }
-              for(i = 0; i < data.length; i++)
-              {
-                if(contResultPro == data.length)
-                {
-                  challengeListPro[i] = new challengeDT(challengeListProArray[i]);
-                }
-                else
-                {
-                  challengeListPro[i] = new challengeDT(data[i]);
-                }
-                  $(".tblProBody").append(
-                  "<div class='row col s12'>"+
-                          "<div class='card col s12 row'>"+
-                            "<p class='col l2 m3 s12 row'>"+
-                              "<span class='col s12'><strong>Title</strong></span>"+
-                              "<span class='col s12'>"+challengeListPro[i].title+"</span>"+
-                            "</p>"+
-                            "<p class='col l4 m3 s12 row'>"+
-                              "<span class='col s12'><strong>Description</strong></span>"+
-                              "<span class='col s12'>"+challengeListPro[i].description+"</span>"+
-                            "</p>"+
-                            "<p class='col l2 m2 s12 row'>"+
-                              "<span class='col s12'><strong>Nitro Points</strong></span>"+
-                              "<span class='col s12'>"+challengeListPro[i].NitroPoints+"</span>"+
-                            "</p>"+
-                           
-                            "<p class='col l4 m4 s12 row'>"+
-                                "<span class='col s12 center'><strong>Total</strong></span>"+
-                                "<a class='btnRemovePro col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>"+
-                                  "<span class='col s6 center row'>" + "<input index='"+i+"' class='center txtCountPro col s6' type='text' value='"+challengeListPro[i].completado+"'/><span class='col s6'>/"+challengeListPro[i].total + "</span></span>" +
-                                "<a class='btnAddPro col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>"+
-                            "</p>"+
-                          "</div>"+
-                        
-                      "</div>"
-                    );
+              success: function(data){
                 
+                challengeListProArray = JSON.parse(localStorage.getItem('challengeListPro'));
+                
+                //Validar localstorage primero
+                contResultPro = 0;
+                
+                if(challengeListProArray != null)
+                for(i = 0; i < data.length; i++)
+                {
+                  if(data[i].idChallengeDT == challengeListProArray[i].idChallengeDT)
+                  {
+                    contResultPro++;
+                  }
+                }
+                for(i = 0; i < data.length; i++)
+                {
+                  if(contResultPro == data.length)
+                  {
+                    challengeListPro[i] = new challengeDT(challengeListProArray[i]);
+                  }
+                  else
+                  {
+                    challengeListPro[i] = new challengeDT(data[i]);
+                  }
+                  cardPro = "<div class='row col s12'>";
+
+                    if(challengeListPro[i].completado == challengeListPro[i].total){
+                      cardPro += "<div class='card col green darken-1 white-text s12 row'>";
+                      proTotalDataCompletado++;
+                    }
+                    else
+                      cardPro += "<div class='card col theme s12 row'>";
+
+                    cardPro += "<p class='col l2 m3 s12 row'>"+
+                                "<span class='col s12'><strong>Title</strong></span>"+
+                                "<span class='col s12'>"+challengeListPro[i].title+"</span>"+
+                              "</p>"+
+                              "<p class='col l4 m3 s12 row'>"+
+                                "<span class='col s12'><strong>Description</strong></span>"+
+                                "<span class='col s12'>"+challengeListPro[i].description+"</span>"+
+                              "</p>"+
+                              "<p class='col l2 m2 s12 row'>"+
+                                "<span class='col s12'><strong>Nitro Points</strong></span>"+
+                                "<span class='col s12'>"+challengeListPro[i].NitroPoints+"</span>"+
+                              "</p>"+
+                            
+                              "<p class='col l4 m4 s12 row'>"+
+                                  "<span class='col s12 center'><strong>Total</strong></span>"+
+                                  "<a class='btnRemovePro col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>"+
+                                    "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountPro col s6' type='text' value='"+challengeListPro[i].completado+"'/><span class='col s6'>/"+challengeListPro[i].total + "</span></span>" +
+                                  "<a class='btnAddPro col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>"+
+                              "</p>"+
+                            "</div>"+
+                          
+                        "</div>"
+                      ;
+                      $(".tblProBody").append(cardPro);
+                  
+                }
+                setTheme();
+                localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
+                $(".btnRemovePro").on('click', function(){
+                    index = $(this).parent().find('.txtCountPro').attr('index');
+                    if(challengeListPro[index].completado>0)
+                    {
+                      challengeListPro[index].completado--;
+                      $(this).parent().find('.txtCountPro').val(challengeListPro[index].completado);
+                      localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
+                      challengeListPro = JSON.parse(localStorage.getItem('challengeListPro'));
+                    }
+                     $(this).parent().parent().addClass("theme");
+                    $(this).parent().parent().removeClass("green darken-1");
+                    $(this).parent().parent().removeClass("white-text");
+                    setTheme();
+                  });
+                  $(".btnAddPro").on('click',function(){
+                    //debugger;
+                    index = $(this).parent().find('.txtCountPro').attr('index');
+                    if(challengeListPro[index].completado<challengeListPro[index].total)
+                    {
+                      challengeListPro[index].completado++;
+                      $(this).parent().find('.txtCountPro').val(challengeListPro[index].completado);
+                      localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
+                      challengeListPro = JSON.parse(localStorage.getItem('challengeListPro'));
+                    }
+                     if(challengeListPro[index].completado == challengeListPro[index].total)
+                  {
+                    $(this).parent().parent().removeClass("white");
+                    $(this).parent().parent().removeClass("black-text");
+                    $(this).parent().parent().removeClass("grey darken-4");
+                    $(this).parent().parent().removeClass("white-text");
+                    $(this).parent().parent().removeClass("theme");
+                    $(this).parent().parent().addClass("green darken-1");
+                    $(this).parent().parent().addClass("white-text");
+                    proTotalDataCompletado++;
+                        $(".proTotalData").html("Pro ["+proTotalDataCompletado+"/"+challengeListPro.length+"]");
+                  }else{
+                    
+                    $(this).parent().parent().addClass("theme");
+                    $(this).parent().parent().removeClass("green darken-1");
+                    $(this).parent().parent().removeClass("white-text");
+                    setTheme();
+                    proTotalDataCompletado--;
+                        $(".proTotalData").html("Pro ["+proTotalDataCompletado+"/"+challengeListPro.length+"]");
+                  }
+                  }); 
+              // alert('successful');
+              },
+              error : function(xhr, status) {
+                  alert('Disculpe, existió un problema' + xhr + " " +status);
               }
-               localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
-              $(".btnRemovePro").on('click', function(){
-                  index = $(this).parent().find('.txtCountPro').attr('index');
-                  if(challengeListPro[index].completado>0)
-                  {
-                    challengeListPro[index].completado--;
-                    $(this).parent().find('.txtCountPro').val(challengeListPro[index].completado);
-                    localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
-                    challengeListPro = JSON.parse(localStorage.getItem('challengeListPro'));
-                  }
-                });
-                $(".btnAddPro").on('click',function(){
-                  //debugger;
-                  index = $(this).parent().find('.txtCountPro').attr('index');
-                  if(challengeListPro[index].completado<challengeListPro[index].total)
-                  {
-                    challengeListPro[index].completado++;
-                    $(this).parent().find('.txtCountPro').val(challengeListPro[index].completado);
-                    localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
-                    challengeListPro = JSON.parse(localStorage.getItem('challengeListPro'));
-                  }
-                }); 
-             // alert('successful');
-            },
-             error : function(xhr, status) {
-                alert('Disculpe, existió un problema' + xhr + " " +status);
-            }
-        }
-      );
+          }
+        );
+      }
+       updateProList();
+      $(".btnDeletePro").click(function(){
+
+        localStorage.removeItem('challengeListPro');
+        $(".tblProBody").text("");
+        updateProList();
+        setTheme();
+      });
     };
 </script>

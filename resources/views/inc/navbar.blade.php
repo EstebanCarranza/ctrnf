@@ -1,10 +1,10 @@
 <nav class="blue darken-4">
     <div class="container">
         <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">CTRNF [NO OFICIAL]</a>
+        <a href="/" class="brand-logo">CTRNF</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="#">Acerca de</a></li>
+            <li><a href="/extras">Extras</a></li>
              <li>
                 <!-- Switch -->
                 <div class="switch material-icons">
@@ -22,11 +22,11 @@
     </div>
   </nav>
 
-  <ul class="sidenav" id="mobile-demo">
-    <li><a href="#">Acerca de</a></li>
+  <ul class="sidenav theme" id="mobile-demo">
+    <li><a class='theme' href="/extras">Extras</a></li>
      <li>
         <!-- Switch -->
-                <div class="switch material-icons">
+                <div class="theme switch material-icons">
                     <label>
                     brightness_2
                     <input type="checkbox" class="chkTheme">
@@ -41,27 +41,31 @@
   <script>
         $(document).ready(function(){
             $('.sidenav').sidenav();
-            if(!localStorage.getItem('theme'))
-            {
-                $(".chkTheme").checked = true;
-            }
+            
+             /*function setTheme()
+             {
+                 if(!localStorage.getItem('theme'))
+                {
+                    $(".chkTheme").checked = true;
+                }
 
-            if(localStorage.getItem('theme') == "white")
-            {
-                //debugger;
-                $.each($(".chkTheme"), function( index, value ) {
-                    value.checked = true;
-                });
-                //$(".chkTheme").checked = true;
-            }
-             if(localStorage.getItem('theme') == "black")
-            {
-                //debugger;
-                $.each($(".chkTheme"), function( index, value ) {
-                    value.checked = false;
-                });
-            }   
-             
+                if(localStorage.getItem('theme') == "white")
+                {
+                    //debugger;
+                    $.each($(".chkTheme"), function( index, value ) {
+                        value.checked = true;
+                    });
+                    //$(".chkTheme").checked = true;
+                }
+                if(localStorage.getItem('theme') == "black")
+                {
+                    //debugger;
+                    $.each($(".chkTheme"), function( index, value ) {
+                        value.checked = false;
+                    });
+                }   
+             }*/
+             setTheme();
 
             $(".chkTheme").change(function(){
                  if(!localStorage.getItem('theme'))
@@ -85,6 +89,7 @@
                     $(".theme").addClass("grey darken-4");
                     $(".theme").addClass("white-text");
                 }
+                  setTheme();
             });
         });
         

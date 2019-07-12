@@ -38,4 +38,14 @@ class challengeData extends Controller
         $quickTable = DB::table('tbl_tier')->select()->get();
         return response()->json($quickTable);
     }
+    public function getTrackRace()
+    {
+        $quickTable = DB::table('tbl_track')->select()->where('mode',1)->get();
+        return response()->json($quickTable);
+    }
+    public function getTrackBattle()
+    {
+        $quickTable = DB::table('tbl_track')->select()->where('mode',2)->get();
+        return response()->json($quickTable);
+    }
 }
