@@ -26,6 +26,7 @@
                 //Validar localstorage primero
                 contResultWeekly = 0;
                 if(challengeListWeeklyArray != null)
+                if(challengeListWeeklyArray.length > 0)
                 for(i = 0; i < data.length; i++)
                 {
                   if(data[i].idChallengeDT == challengeListWeeklyArray[i].idChallengeDT)

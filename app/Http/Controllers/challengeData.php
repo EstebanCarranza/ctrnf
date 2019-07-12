@@ -7,15 +7,23 @@ use Illuminate\Http\Request;
 class challengeData extends Controller
 {
     //
+    public function getTime()
+    {
+        $fechaActual = gmdate("Y-m-j", time());
+        return response()->json($fechaActual);
+    }
     public function getQuick()
     {
      //   $hoy=new DateTime("now");
-        $quickTable = DB::table('tbl_challengeDT')->select()->where('idChallenge', 1)->get();
+     //gmdate("Y/m/j H:i:s", time()
+        $fechaActual = gmdate("Y-m-j", time());
+        $quickTable = DB::table('tbl_challengeDT')->select()->where('idChallenge', 1)->where('fechaInicio','=',$fechaActual)->get();
         return response()->json($quickTable);
     }
     public function getDialy()
     {
-        $quickTable = DB::table('tbl_challengeDT')->select()->where('idChallenge', 2)->get();
+        $fechaActual = gmdate("Y/m/j H:i:s", time());
+        $quickTable = DB::table('tbl_challengeDT')->select()->where('idChallenge', 2)->where('fechaInicio','=',$fechaActual)->get();
         return response()->json($quickTable);
     }
     public function getWeekly()

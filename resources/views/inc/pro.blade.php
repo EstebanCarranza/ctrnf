@@ -26,6 +26,7 @@
                 contResultPro = 0;
                 
                 if(challengeListProArray != null)
+                if(challengeListProArray.length > 0)
                 for(i = 0; i < data.length; i++)
                 {
                   if(data[i].idChallengeDT == challengeListProArray[i].idChallengeDT)

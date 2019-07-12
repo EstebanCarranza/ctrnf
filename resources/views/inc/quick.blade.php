@@ -21,11 +21,12 @@
             async:'true',
 
             success: function(data){
-              
+              debugger;
               challengeListQuickArray = JSON.parse(localStorage.getItem('challengeListQuick'));
               //Validar localstorage primero
               contResultQuick = 0;
                if(challengeListQuickArray != null)
+               if(challengeListQuickArray.length > 0)
               for(i = 0; i < data.length; i++)
               {
                 if(data[i].idChallengeDT == challengeListQuickArray[i].idChallengeDT)

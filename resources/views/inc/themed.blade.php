@@ -26,6 +26,7 @@
                 contResultThemed = 0;
                 
                 if(challengeListThemedArray != null)
+                if(challengeListThemedArray.length > 0)
                 for(i = 0; i < data.length; i++)
                 {
                   if(data[i].idChallengeDT == challengeListThemedArray[i].idChallengeDT)

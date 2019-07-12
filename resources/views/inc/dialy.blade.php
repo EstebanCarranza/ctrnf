@@ -25,6 +25,7 @@
                   contResultDialy = 0;
                   
                   if(challengeListDialyArray != null)
+                  if(challengeListDialyArray.length > 0)
                   for(i = 0; i < data.length; i++)
                   {
                     if(data[i].idChallengeDT == challengeListDialyArray[i].idChallengeDT)
