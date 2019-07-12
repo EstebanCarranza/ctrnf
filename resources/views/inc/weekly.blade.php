@@ -67,11 +67,19 @@
                               "</p>"+
                             
                               "<p class='col l4 m4 s12 row'>"+
-                                  "<span class='col s12 center'><strong>Total</strong></span>"+
-                                  "<a class='btnRemoveWeekly col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>"+
-                                    "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountWeekly col s6' type='text' value='"+challengeListWeekly[i].completado+"'/><span class='col s6'>/"+challengeListWeekly[i].total + "</span></span>" +
-                                  "<a class='btnAddWeekly col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>"+
-                              "</p>"+
+                                  "<span class='col s12 center'><strong>Total</strong></span>";
+                              if(challengeListWeekly[i].completado == 0)
+                               cardWeekly +=   "<a class='disabled btnRemoveWeekly col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+                               else
+                               cardWeekly +=   "<a class='btnRemoveWeekly col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+
+                               cardWeekly +=     "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountWeekly col s6' type='text' value='"+challengeListWeekly[i].completado+"'/><span class='col s6'>/"+challengeListWeekly[i].total + "</span></span>";
+                              if(challengeListWeekly[i].completado == challengeListWeekly[i].total)
+                               cardWeekly +=   "<a class='disabled btnAddWeekly col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+                              else
+                               cardWeekly +=   "<a class='btnAddWeekly col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+
+                             cardWeekly+= "</p>"+
                             "</div>"+
                           
                         "</div>"
@@ -89,11 +97,21 @@
                       $(this).parent().find('.txtCountWeekly').val(challengeListWeekly[index].completado);
                       localStorage.setItem('challengeListWeekly', JSON.stringify(challengeListWeekly));
                       challengeListWeekly = JSON.parse(localStorage.getItem('challengeListWeekly'));
+                      if(challengeListWeekly[index].completado == challengeListWeekly[index].total-1)
+                        {
+                            weeklyTotalDataCompletado--;
+                          $(".weeklyTotalData").html("Weekly ["+weeklyTotalDataCompletado+"/"+challengeListWeekly.length+"]");
+                        }
+                    }
+                    if(challengeListWeekly[index].completado == 0)
+                    {
+                      $(this).addClass("disabled");
                     }
                      $(this).parent().parent().addClass("theme");
                     $(this).parent().parent().removeClass("green darken-1");
                     $(this).parent().parent().removeClass("white-text");
                     setTheme();
+                    $(this).parent().find('.btnAddWeekly').removeClass('disabled');
                   });
                   $(".btnAddWeekly").on('click',function(){
                     //debugger;
@@ -104,6 +122,7 @@
                       $(this).parent().find('.txtCountWeekly').val(challengeListWeekly[index].completado);
                       localStorage.setItem('challengeListWeekly', JSON.stringify(challengeListWeekly));
                       challengeListWeekly = JSON.parse(localStorage.getItem('challengeListWeekly'));
+                      $(this).parent().find('.btnRemoveWeekly').removeClass('disabled');
                     }
                      if(challengeListWeekly[index].completado == challengeListWeekly[index].total)
                   {
@@ -114,6 +133,7 @@
                     $(this).parent().parent().removeClass("theme");
                     $(this).parent().parent().addClass("green darken-1");
                     $(this).parent().parent().addClass("white-text");
+                    $(this).addClass("disabled");
                     weeklyTotalDataCompletado++;
                         $(".weeklyTotalData").html("Weekly ["+weeklyTotalDataCompletado+"/"+challengeListWeekly.length+"]");
                   }else{
@@ -122,10 +142,10 @@
                     $(this).parent().parent().removeClass("green darken-1");
                     $(this).parent().parent().removeClass("white-text");
                     setTheme();
-                    weeklyTotalDataCompletado--;
-                        $(".weeklyTotalData").html("Weekly ["+weeklyTotalDataCompletado+"/"+challengeListWeekly.length+"]");
+                    $(this).removeClass("disabled");
                   }
                   }); 
+                  $(".weeklyTotalData").html("Weekly ["+weeklyTotalDataCompletado+"/"+challengeListWeekly.length+"]");
               // alert('successful');
               },
               error : function(xhr, status) {
@@ -136,7 +156,7 @@
       }
        updateWeeklyList();
       $(".btnDeleteWeekly").click(function(){
-
+        weeklyTotalDataCompletado = 0;
         localStorage.removeItem('challengeListWeekly');
         $(".tblWeeklyBody").text("");
         updateWeeklyList();

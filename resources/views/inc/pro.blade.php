@@ -66,11 +66,20 @@
                               "</p>"+
                             
                               "<p class='col l4 m4 s12 row'>"+
-                                  "<span class='col s12 center'><strong>Total</strong></span>"+
-                                  "<a class='btnRemovePro col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>"+
-                                    "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountPro col s6' type='text' value='"+challengeListPro[i].completado+"'/><span class='col s6'>/"+challengeListPro[i].total + "</span></span>" +
-                                  "<a class='btnAddPro col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>"+
-                              "</p>"+
+                                  "<span class='col s12 center'><strong>Total</strong></span>";
+                              if(challengeListPro[i].completado == 0)
+                                cardPro +=    "<a class='disabled btnRemovePro col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+                              else
+                                cardPro +=    "<a class='btnRemovePro col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+
+                              cardPro +=      "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountPro col s6' type='text' value='"+challengeListPro[i].completado+"'/><span class='col s6'>/"+challengeListPro[i].total + "</span></span>";
+
+                              if(challengeListPro[i].completado == challengeListPro[i].total)
+                                cardPro +=    "<a class='disabled btnAddPro col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+                              else
+                                cardPro +=    "<a class='btnAddPro col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+
+                              cardPro +="</p>"+
                             "</div>"+
                           
                         "</div>"
@@ -88,11 +97,22 @@
                       $(this).parent().find('.txtCountPro').val(challengeListPro[index].completado);
                       localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
                       challengeListPro = JSON.parse(localStorage.getItem('challengeListPro'));
+                      if(challengeListPro[index].completado == challengeListPro[index].total-1)
+                      {
+                        proTotalDataCompletado--;
+                        $(".proTotalData").html("Pro ["+proTotalDataCompletado+"/"+challengeListPro.length+"]");
+
+                      }
+                    }
+                    if(challengeListPro[index].completado == 0)
+                    {
+                      $(this).addClass('disabled');
                     }
                      $(this).parent().parent().addClass("theme");
                     $(this).parent().parent().removeClass("green darken-1");
                     $(this).parent().parent().removeClass("white-text");
                     setTheme();
+                    $(this).parent().find('.btnAddPro').removeClass('disabled');
                   });
                   $(".btnAddPro").on('click',function(){
                     //debugger;
@@ -103,6 +123,7 @@
                       $(this).parent().find('.txtCountPro').val(challengeListPro[index].completado);
                       localStorage.setItem('challengeListPro', JSON.stringify(challengeListPro));
                       challengeListPro = JSON.parse(localStorage.getItem('challengeListPro'));
+                      $(this).parent().find('.btnRemovePro').removeClass('disabled');
                     }
                      if(challengeListPro[index].completado == challengeListPro[index].total)
                   {
@@ -113,6 +134,7 @@
                     $(this).parent().parent().removeClass("theme");
                     $(this).parent().parent().addClass("green darken-1");
                     $(this).parent().parent().addClass("white-text");
+                    $(this).addClass('disabled');
                     proTotalDataCompletado++;
                         $(".proTotalData").html("Pro ["+proTotalDataCompletado+"/"+challengeListPro.length+"]");
                   }else{
@@ -121,11 +143,11 @@
                     $(this).parent().parent().removeClass("green darken-1");
                     $(this).parent().parent().removeClass("white-text");
                     setTheme();
-                    proTotalDataCompletado--;
-                        $(".proTotalData").html("Pro ["+proTotalDataCompletado+"/"+challengeListPro.length+"]");
+                    $(this).removeClass('disabled');
                   }
                   }); 
               // alert('successful');
+              $(".proTotalData").html("Pro ["+proTotalDataCompletado+"/"+challengeListPro.length+"]");
               },
               error : function(xhr, status) {
                   alert('Disculpe, existió un problema' + xhr + " " +status);
@@ -135,7 +157,7 @@
       }
        updateProList();
       $(".btnDeletePro").click(function(){
-
+        proTotalDataCompletado = 0;
         localStorage.removeItem('challengeListPro');
         $(".tblProBody").text("");
         updateProList();

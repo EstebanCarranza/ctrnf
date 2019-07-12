@@ -66,11 +66,21 @@
                               "</p>"+
                             
                               "<p class='col l4 m4 s12 row'>"+
-                                  "<span class='col s12 center'><strong>Total</strong></span>"+
-                                  "<a class='btnRemoveThemed col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>"+
-                                    "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountThemed col s6' type='text' value='"+challengeListThemed[i].completado+"'/><span class='col s6'>/"+challengeListThemed[i].total + "</span></span>" +
-                                  "<a class='btnAddThemed col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>"+
-                              "</p>"+
+                                  "<span class='col s12 center'><strong>Total</strong></span>";
+                              
+                              if(challengeListThemed[i].completado == 0)
+                              cardThemed+=     "<a class='disabled btnRemoveThemed col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+                              else 
+                              cardThemed+=     "<a class='btnRemoveThemed col s3 blue darken-4 waves-effect waves-light btn left'><i class='material-icons'>remove</i></a>";
+
+                              cardThemed+=       "<span class='col s6 center row'>" + "<input index='"+i+"' class='center theme txtCountThemed col s6' type='text' value='"+challengeListThemed[i].completado+"'/><span class='col s6'>/"+challengeListThemed[i].total + "</span></span>";
+
+                              if(challengeListThemed[i].completado == challengeListThemed[i].total)
+                              cardThemed+=     "<a class='disabled btnAddThemed col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+                              else
+                              cardThemed+=     "<a class='btnAddThemed col s3 blue darken-4 waves-effect waves-light btn right'><i class='material-icons'>add</i></a>";
+                              
+                              cardThemed+= "</p>"+
                             "</div>"+
                           
                         "</div>"
@@ -87,11 +97,21 @@
                       $(this).parent().find('.txtCountThemed').val(challengeListThemed[index].completado);
                       localStorage.setItem('challengeListThemed', JSON.stringify(challengeListThemed));
                       challengeListThemed = JSON.parse(localStorage.getItem('challengeListThemed'));
+                      if(challengeListThemed[index].completado == challengeListThemed[i].total-1)
+                      {
+                        themedTotalDataCompletado--;
+                        $(".themedTotalData").html("Themed ["+themedTotalDataCompletado+"/"+challengeListThemed.length+"]");
+                      }
+                    }
+                    if(challengeListThemed[index].completado == 0)
+                    {
+                      $(this).addClass('disabled');
                     }
                      $(this).parent().parent().addClass("theme");
                     $(this).parent().parent().removeClass("green darken-1");
                     $(this).parent().parent().removeClass("white-text");
                     setTheme();
+                    $(this).parent().find('btnAddThemed').removeClass('disabled');
                   });
                   $(".btnAddThemed").on('click',function(){
                     //debugger;
@@ -102,6 +122,7 @@
                       $(this).parent().find('.txtCountThemed').val(challengeListThemed[index].completado);
                       localStorage.setItem('challengeListThemed', JSON.stringify(challengeListThemed));
                       challengeListThemed = JSON.parse(localStorage.getItem('challengeListThemed'));
+                      $(this).parent().find('.btnRemoveDialy').removeClass('disabled');
                     }
                      if(challengeListThemed[index].completado == challengeListThemed[index].total)
                   {
@@ -112,6 +133,7 @@
                     $(this).parent().parent().removeClass("theme");
                     $(this).parent().parent().addClass("green darken-1");
                     $(this).parent().parent().addClass("white-text");
+                    $(this).addClass('disabled');
                     themedTotalDataCompletado++;
                         $(".themedTotalData").html("Themed ["+themedTotalDataCompletado+"/"+challengeListThemed.length+"]");
                     
@@ -121,11 +143,11 @@
                     $(this).parent().parent().removeClass("green darken-1");
                     $(this).parent().parent().removeClass("white-text");
                     setTheme();
-                    themedTotalDataCompletado--;
-                        $(".themedTotalData").html("Themed ["+themedTotalDataCompletado+"/"+challengeListThemed.length+"]");
+                    $(this).removeClass('disabled');
                   }
                   }); 
               // alert('successful');
+              $(".themedTotalData").html("Themed ["+themedTotalDataCompletado+"/"+challengeListThemed.length+"]");
               },
               error : function(xhr, status) {
                   alert('Disculpe, existió un problema' + xhr + " " +status);
@@ -135,7 +157,7 @@
       }
        updateThemedList();
       $(".btnDeleteThemed").click(function(){
-
+        themedTotalDataCompletado = 0;
         localStorage.removeItem('challengeListThemed');
         $(".tblThemedBody").text("");
         updateThemedList();
