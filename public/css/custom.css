@@ -1,0 +1,6 @@
+.tabs .tab a:hover, .tabs .tab a.active {
+    color:#2196F3 !important;
+}
+.tabs .tab a {
+    color:#2196F3 !important;
+}
