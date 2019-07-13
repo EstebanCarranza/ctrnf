@@ -22,7 +22,7 @@ class challengeData extends Controller
     }
     public function getDialy()
     {
-        $fechaActual = gmdate("Y/m/j H:i:s", time());
+        $fechaActual = gmdate("Y-m-j", time());
         $quickTable = DB::table('tbl_challengeDT')->select()->where('idChallenge', 2)->where('fechaInicio','=',$fechaActual)->get();
         return response()->json($quickTable);
     }
