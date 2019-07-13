@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 class challengeData extends Controller
 {
     //
+    public function getVisitPage()
+    {
+        $quickTable = DB::table('tbl_webPageParams')->select()->where('idWebPageParams', 1)->first();
+
+        DB::table('tbl_webPageParams')
+            ->where('idWebPageParams', 1)
+            ->update([
+                'value'        =>          ($quickTable->value+1)
+            ]);
+        
+        $quickTable = DB::table('tbl_webPageParams')->select()->where('title', 'ctrnfPageViews')->first();
+        return response()->json($quickTable);
+    }
     public function getTime()
     {
         $fechaActual = gmdate("Y-m-j", time());

@@ -33,6 +33,7 @@ Route::get('/Pro','challengeData@getPro');
 Route::get('/Tier','challengeData@getTier');
 
 Route::get('/Time','challengeData@getTime');
+Route::get('/Views','challengeData@getVisitPage');
 
 
 Route::get('/RaceTracks','challengeData@getTrackRace');

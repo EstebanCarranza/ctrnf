@@ -18,6 +18,32 @@
     <div class="footer-copyright">
     <div class="container">
         © 2019 Twicky
+        [Visits:&nbsp;<span class='visitsWebPage'> </span>]
     </div>
     </div>
 </footer>
+<script>
+    $(document).ready(function(){
+       function updateViews()
+      {
+          $.ajax(
+            {
+                type:'GET',
+                url:'/Views',
+                dataType:'json',
+                async:'true',
+
+                success: function(data){
+                  if(data != null)
+                  $(".visitsWebPage").text(data.value);
+                // alert('successful');
+                },
+                error : function(xhr, status) {
+                    alert('Disculpe, existió un problema' + xhr + " " +status);
+                }
+            }
+          );
+      }
+      updateViews();
+    });
+</script>
