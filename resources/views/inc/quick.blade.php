@@ -21,7 +21,7 @@
             async:'true',
 
             success: function(data){
-              debugger;
+              
               challengeListQuickArray = JSON.parse(localStorage.getItem('challengeListQuick'));
               //Validar localstorage primero
               contResultQuick = 0;

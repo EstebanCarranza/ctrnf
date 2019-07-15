@@ -34,6 +34,7 @@ Route::get('/Tier','challengeData@getTier');
 
 Route::get('/Time','challengeData@getTime');
 Route::get('/Views','challengeData@getVisitPage');
+Route::get('/Feedbacks','challengeData@getFeedbacks');
 
 
 Route::get('/RaceTracks','challengeData@getTrackRace');

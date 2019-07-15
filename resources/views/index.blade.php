@@ -3,6 +3,45 @@
 <h4 class="center">Week 2 (2019-07-10 to 2019-07-17) [AAAA-MM-DD] </h4>
 <h5 class='center gmtDate'></h5>
 <br>
+<div class="row">
+  <div class="row col l6 s12">
+  <div class='row card-panel col s12 theme'>
+    <p class="col l12 m4 s12 row">
+        <span class="col s12 row center"><strong>Total Wumpa Coins</strong></span>
+        <span class="input-field col s12">
+          <input id="txtWumpaCoins" type="number" class="txtWumpaCoins validate center theme col s12" value="0">
+          <label for="txtWumpaCoins">Wumpa Coins</label>
+        </span>
+        <span class="col s12 row center"><strong>Add/remove wumpas</strong></span>
+        <a class="btnRemoveWumpaCoins col s3 blue darken-4 waves-effect waves-light btn left"><i class="material-icons">remove</i></a>        
+        <span class="col s6 row">
+          <input id="txtWumpaCoins" type="number" class="txtWumpaCoinsValue center validate center theme col s12" value="0">
+        </span>
+        <a class="btnAddWumpaCoins col s3 blue darken-4 waves-effect waves-light btn right"><i class="material-icons">add</i></a>
+        <a class="col s12 waves-effect waves-light btn blue darken-4 btnDeleteWumpaCoins">delete<i class="material-icons right">delete</i></a>
+      </p>
+    </div>
+  </div>
+  <div class="row col l6 s12">
+    <div class='row card-panel col s12 theme'>
+      <p class="col l12 m4 s12 row">
+        <span class="col s12 row center"><strong>Total Trophies</strong></span>
+        <span class="input-field col s12">
+          <input id="txtTrophies" type="number" class="txtTrophies validate center theme col s12" value="0">
+          <label for="txtTrophies">Trophies</label>
+        </span>
+        <span class="col s12 row center"><strong>Add/remove trophies</strong></span>
+        <a class="btnRemoveTrophies col s3 blue darken-4 waves-effect waves-light btn left"><i class="material-icons">remove</i></a>
+        <span class="col s6 row">
+          <input id="txtTrophies" type="number" class="txtTrophiesValue center validate center theme col s12" value="0">
+        </span>
+        <a class="btnAddTrophies col s3 blue darken-4 waves-effect waves-light btn right"><i class="material-icons">add</i></a>
+        <a class="col s12 waves-effect waves-light btn blue darken-4 btnDeleteTrophies">delete<i class="material-icons right">delete</i></a>
+      </p>
+    </div>
+  </div>
+</div>
+<br>
  <div class="row">
     <div class="col s12">
       <ul class="tabs">
@@ -40,6 +79,23 @@
   </div>
 
 
+  
+  
+  <div class="row">
+    <h1>Feedback</h1>    
+      <form method="post" action="challengeDT" class="col s12">
+        {{@csrf_field()}}
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea name="description" id="textarea2" class="materialize-textarea theme" required></textarea>
+            <label for="textarea2">Write your feedback</label>
+          </div>
+        </div>
+         <button class="btn waves-effect waves-light blue darken-4" type="submit" name="action">Send feedback
+            <i class="material-icons right">send</i>
+          </button>
+      </form>
+    </div>
 
     <script>
 
@@ -64,11 +120,93 @@
             // call this function again in 1000ms
             setInterval(updateClock, 1000);
 
-
+            function saveDataLocalStorage(objectData, name)
+            {
+              localStorage.setItem(name, objectData.val());
+              objectData.val(localStorage.getItem(name));
+            }
+          
+            $(".txtWumpaCoins").change(function(){saveDataLocalStorage($(this),'wumpaCoinsData');}).keyup(function(){saveDataLocalStorage($(this),'wumpaCoinsData'); ($(this).val()=="")?($(this).val(0)):('nothing');});
+            $(".txtTrophies").change(function(){saveDataLocalStorage($(this),'trophiesData');}).keyup(function(){saveDataLocalStorage($(this),'trophiesData'); ($(this).val()=="")?($(this).val(0)):('nothing');});
             
-            
+            $(".txtWumpaCoins").val((localStorage.getItem("wumpaCoinsData")!=null)?localStorage.getItem('wumpaCoinsData'):0);
+            $(".txtTrophies").val((localStorage.getItem("trophiesData")!=null)?localStorage.getItem('trophiesData'):0);
+
+            $(".txtWumpaCoinsValue").change(function(){validarCambioValor($(this));}).keyup(function(){validarCambioValor($(this));});
+            $(".txtTrophiesValue").change(function(){validarCambioValor($(this));}).keyup(function(){validarCambioValor($(this));});
+
+            function validarCambioValor(objectData)
+            {
+              if(objectData.val() != 0)
+              {
+                
+                if(objectData.hasClass('txtWumpaCoinsValue')){
+                  localStorage.setItem("txtWumpaCoinsValue",objectData.val());
+                  $(".btnRemoveWumpaCoins").removeClass("disabled");
+                  $(".btnAddWumpaCoins").removeClass("disabled");
+                }else if(objectData.hasClass('txtTrophiesValue')){
+                  localStorage.setItem("txtTrophiesValue",objectData.val());
+                  $(".btnRemoveTrophies").removeClass("disabled");
+                  $(".btnAddTrophies").removeClass("disabled");
+                }
+              }else 
+              {
+                if(objectData.hasClass('txtWumpaCoinsValue')){
+                  $(".btnRemoveWumpaCoins").addClass("disabled");
+                  $(".btnAddWumpaCoins").addClass("disabled");
+                }else if(objectData.hasClass('txtTrophiesValue')){
+                  $(".btnRemoveTrophies").addClass("disabled");
+                  $(".btnAddTrophies").addClass("disabled");
+                }
+                
+              }
+              
+              if(objectData.val() == "")
+              {
+                objectData.val(0);
+              }
+            }
+            $(".btnAddWumpaCoins").click(function(){
+              addRemoveValue($(this),"add","txtWumpaCoinsValue","txtWumpaCoins","wumpaCoinsData");
+            });
+            $(".btnRemoveWumpaCoins").click(function(){
+              addRemoveValue($(this),"remove","txtWumpaCoinsValue","txtWumpaCoins","wumpaCoinsData");
+            });
+            $(".btnAddTrophies").click(function(){
+              addRemoveValue($(this),"add","txtTrophiesValue","txtTrophies","trophiesData");
+            });
+            $(".btnRemoveTrophies").click(function(){
+              addRemoveValue($(this),"remove","txtTrophiesValue","txtTrophies","trophiesData");
+            });
+            function addRemoveValue(objectData,status,classInput,classOutput,localStorageName)
+            {
+                if(status == "add")
+                {
+                    tmpData = parseInt($("."+classOutput).val(),10) + parseInt($("."+classInput).val(),10);
+                    
+                }else if(status == "remove"){
+                    tmpData = parseInt($("."+classOutput).val(),10) - parseInt($("."+classInput).val(),10);
+                } 
+                localStorage.setItem(localStorageName, tmpData);
+                localStorage.setItem(classInput, $("."+classInput).val());
+                $("."+classOutput).val(localStorage.getItem(localStorageName));
+            }
+            $(".txtWumpaCoinsValue").val((localStorage.getItem("txtWumpaCoinsValue")!=null)?localStorage.getItem("txtWumpaCoinsValue"):0);
+            $(".txtTrophiesValue").val((localStorage.getItem("txtTrophiesValue")!=null)?localStorage.getItem("txtTrophiesValue"):0);
 
 
+            $(".btnDeleteTrophies").click(function(){
+              localStorage.setItem("txtTrophiesValue",0);
+              localStorage.setItem("trophiesData",0);
+              $(".txtTrophiesValue").val(0);
+              $(".txtTrophies").val(0);
+            });
+            $(".btnDeleteWumpaCoins").click(function(){
+              localStorage.setItem("txtWumpaCoinsValue",0);
+              localStorage.setItem("wumpaCoinsData",0);
+              $(".txtWumpaCoinsValue").val(0);
+              $(".txtWumpaCoins").val(0);
+            });
         });
         
     </script>

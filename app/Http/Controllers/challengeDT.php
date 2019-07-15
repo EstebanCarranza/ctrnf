@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class challengeDT extends Controller
@@ -66,6 +66,14 @@ class challengeDT extends Controller
     public function store(Request $request)
     {
         //
+        
+        DB::table('tbl_feedback')
+            ->insert([
+                'description'        =>    $request->description,
+                'created_at'       =>      gmdate("Y-m-j H:i:s", time())
+            ]);
+        
+        return redirect('/');
     }
 
     /**

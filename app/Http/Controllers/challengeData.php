@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 class challengeData extends Controller
 {
     //
+    public function getFeedbacks()
+    {
+        $quickTable = DB::table('tbl_feedback')->select()->get();
+        
+        return response()->json($quickTable);
+    }
+
     public function getVisitPage()
     {
         $quickTable = DB::table('tbl_webPageParams')->select()->where('idWebPageParams', 1)->first();
