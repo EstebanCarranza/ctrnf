@@ -9,16 +9,15 @@
     <script>
         $(document).ready(function(){
             getRaceTracks();
-          
+          $('.materialboxed').materialbox();
+
             $(".btnUpdateTrackSelector").click(function(){
                 if (RaceTracks.length > 0)
                 {
                     index = randomIntFromInterval(1, 32) - 1;
-                    $(".dataRandomTrack").html("<h1>Number Track: " + RaceTracks[index].numberTrack + "<br>Name track: " + RaceTracks[index].title + "</h1>");
+                    $(".dataRandomTrack").html("<h1>Number Track: " + RaceTracks[index].numberTrack + "<br>Name track: " + RaceTracks[index].title + "</h1><img class='materialboxed' width='100%' src='http://localhost:8000/image/track?id="+RaceTracks[index].numberTrack + "'><br>");
                 }
             });
-          
-            
         });
         
     </script>

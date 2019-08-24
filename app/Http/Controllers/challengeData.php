@@ -3,9 +3,37 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class challengeData extends Controller
 {
+    public function getImageTrack(Request $request)
+    {
+        //Si no manda ID solamente retornará la leyenda que este en el "else"
+        if($request->id)
+        {
+            $id = $request->id;
+            
+            $data = DB::table('tbl_track')->select('pathImage')->where('numberTrack', $id)->first();
+            if($data)
+            { 
+               if($exists = Storage::disk('local')->exists($data->pathImage))
+                    $response = response()->make(Storage::get($data->pathImage, 200));
+                else 
+                    $response = response()->make(Storage::get('public/sample.jpg', 200));
+                
+                
+                $response->header("Content-Type", 'image/png');
+                return $response;
+                
+            }
+            else {return "Imagen no encontrada";}
+        }else {
+            return "Los datos ingresados no son correctos";
+        }
+        
+    }
     //
     public function getFeedbacks()
     {

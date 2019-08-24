@@ -40,3 +40,4 @@ Route::get('/Feedbacks','challengeData@getFeedbacks');
 Route::get('/RaceTracks','challengeData@getTrackRace');
 Route::get('/BattleTracks','challengeData@getTrackBattle');
 
+Route::get('/image/track', 'challengeData@getImageTrack');
